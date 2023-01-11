@@ -31,7 +31,6 @@ export default ({onPressButton, value, color, big}) => {
     // FUNÇÕES
     const onPress = () => {
         onPressButton(value)
-        console.log('pressed' + value)
     }
     const Underlay = () => {
         return (<View style={estilo.button}>

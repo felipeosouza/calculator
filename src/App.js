@@ -1,16 +1,25 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import Display from './components/Display'
 import Button from './components/Button'
 
     const App = () => {
-        const [ displayText, setDisplayText ] = useState('0')
+        const initialValue = {
+            text : '0'
+        }
+        const reducer = (state, action) => {
+            return {
+                text : action.payload
+            }
+        }
+
+        const [ textState, dispatch ] = useReducer(reducer, initialValue)
         // Insert characters
         const setDisplay = (value) => {
-            setDisplayText(value)
+            dispatch({payload : value})
         }
         const insertCharacter = (character) => {
-            const text = String(displayText)
+            const text = String(textState.text)
             const newText = text.concat(character)
             if(text == 0) {
                 setDisplay(character)
@@ -18,7 +27,7 @@ import Button from './components/Button'
         }
         const result = () => {
             try {
-                const result = eval(displayText)
+                const result = eval(textState.text)
                 setDisplay(result.toString())
             } catch {
                 clear()
@@ -30,7 +39,7 @@ import Button from './components/Button'
 
         return (
             <View style={estilo.keyboard}>
-                <Display text={displayText}/>
+                <Display text={textState.text}/>
                 <View style={estilo.keyboardContainer}>
                     <View style={estilo.keyboardButtons}>
                         <Button onPressButton={clear} value={'AC'} color={'#424141'} big={4/3.21}/>
