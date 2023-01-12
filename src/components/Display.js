@@ -26,8 +26,7 @@ const Display = () => {
         },
         display : {
             height : '100%',
-            //flexWrap : 'wrap',
-            //backgroundColor : '#171616',
+            paddingLeft : 15,
             alignItems : 'flex-end',
             //alignSelf : 'flex-start'
         },
@@ -35,7 +34,6 @@ const Display = () => {
             color : '#F9F9F9',
             fontSize : width / 5,
             fontWeight : '500',
-            marginRight : 5,
             transform : [{
                 scaleX : -1
             }]
