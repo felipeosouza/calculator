@@ -1,37 +1,69 @@
-import React from 'react'
+import React, { useReducer, useRef } from 'react'
 import { Dimensions, ScrollView, Text, StyleSheet, View } from 'react-native'
 
-const Display = ({text}) => {
+const initialValue = {
+    text : '0'
+}
+const reducer = (state, action) => {
+    return {
+        text : action.payload
+    }
+}
+
+var textState = initialValue
+var dispatch;
+
+const Display = () => {
+    [ textState, dispatch ] = useReducer(reducer, initialValue)
+    const scrollView = useRef()
     const width = Dimensions.get('window').width
     const estilo = StyleSheet.create({
-        container : {
-            flex : 1,
-            width : '100%',
-            backgroundColor : 'transparent',
-            justifyContent : 'center',
-            alignItems : 'flex-end',
+        scrollView : {
+            //width : '100%',
+            transform : [{
+                scaleX : -1
+            }]
         },
         display : {
             height : '100%',
-            flexDirection : 'row-reverse',
-            backgroundColor : '#171616',
-            // justifyContent : 'center',
-            alignItems : 'center'
+            //flexWrap : 'wrap',
+            //backgroundColor : '#171616',
+            alignItems : 'flex-end',
+            //alignSelf : 'flex-start'
         },
         txt : {
-            color : 'F9F9F9',
+            color : '#F9F9F9',
             fontSize : width / 5,
             fontWeight : '500',
             marginRight : 5,
+            transform : [{
+                scaleX : -1
+            }]
+        },
+        container : {
+            height : '100%',
+            width : '100%',
+            alignItems : 'flex-end',
+            paddingRight : 2
         }
     })
     return (
         <View style={estilo.container}>
-            <ScrollView contentContainerStyle={estilo.display} horizontal>
-                <Text style={estilo.txt}>{text}</Text>
+            <ScrollView 
+                style={estilo.scrollView} 
+                contentContainerStyle={estilo.display}
+                ref={scrollView}
+                horizontal
+                overScrollMode='never'
+                onContentSizeChange={()=> {
+                    scrollView.current.scrollTo({y : 0, animated : false})
+                }}
+            >
+                <Text style={estilo.txt}>{textState.text}</Text>
             </ScrollView>
         </View>
-    )
+   )
 }
 
+export { textState, dispatch }
 export default Display
